@@ -305,14 +305,14 @@ async function readBlock() {
   const blockItem = saveBlock(block);
 
   const segmentCount = Math.ceil(block.dataLength / (256 + 2));
-  let data: number[] | false;
   try {
-    data = await readRecord(0x16, segmentCount, loading => blockItem.style.setProperty('--loading-percentage', `${loading * 100}%`));
+    const data = await readRecord(0x16, segmentCount, loading => blockItem.style.setProperty('--loading-percentage', `${loading * 100}%`));
+    saveBlock(block, data);
   }
   catch (e) {
-    data = false;
+    saveBlock(block, false);
+    throw e;
   }
-  saveBlock(block, data);
 }
 
 /**

@@ -218,14 +218,14 @@ async function readBlock() {
     outputText(`Loading ${block.filename} block ${block.blockNumber}`);
     const blockItem = saveBlock(block);
     const segmentCount = Math.ceil(block.dataLength / (256 + 2));
-    let data;
     try {
-        data = await readRecord(0x16, segmentCount, loading => blockItem.style.setProperty('--loading-percentage', `${loading * 100}%`));
+        const data = await readRecord(0x16, segmentCount, loading => blockItem.style.setProperty('--loading-percentage', `${loading * 100}%`));
+        saveBlock(block, data);
     }
     catch (e) {
-        data = false;
+        saveBlock(block, false);
+        throw e;
     }
-    saveBlock(block, data);
 }
 async function readRecord(marker, segmentCount, progress) {
     threshold = await getThreshold();
