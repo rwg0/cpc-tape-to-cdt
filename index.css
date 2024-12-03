@@ -1,0 +1,264 @@
+/**
+ * Amstrad CPC Tape to CDT Online Converter
+ *
+ * (c) 2024 Henri MEDOT
+ *
+ * This source code is licensed under the MIT License.
+ * See the LICENSE file in the project root for more information.
+ *
+ * Amstrad CPC464 Regular Font
+ * Copyright Wesley Clarke 2009
+ * https://fonts2u.com/amstrad-cpc464-regular.font
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@font-face {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/fontello.woff2") format("woff2");
+}
+@font-face {
+  font-family: 'cpc';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/amstrad-cpc464.woff") format("woff");
+}
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0 auto;
+  max-width: 1240px;
+  box-sizing: border-box;
+  padding: 20px;
+  line-height: 1.5em;
+  display: grid;
+  grid-template-areas: "header header" "top top" "left right" "bottom bottom";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 2rem;
+}
+audio {
+  display: block;
+  width: 100%;
+}
+audio:not([src]) {
+  pointer-events: none;
+  opacity: 0.5;
+}
+legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: normal;
+}
+button {
+  border: 0 none;
+  border-radius: 3px;
+  color: white;
+  background-color: #1f87e9;
+  display: flex;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5em 0.75em;
+}
+button:hover {
+  background-color: #136dc2;
+  transition: 200ms 100ms;
+  transition-property: background-color;
+}
+fieldset {
+  border: 1px solid #bbb;
+  border-radius: 0.5rem;
+  padding-top: 1rem;
+}
+fieldset legend {
+  margin: 0 auto;
+}
+#header {
+  grid-area: header;
+  text-align: center;
+}
+#header h1 {
+  font-family: "cpc", sans-serif;
+  font-size: 1.5rem;
+  line-height: normal;
+  margin: 0 0 2rem;
+}
+#header p {
+  margin: 0;
+}
+#control-pane {
+  grid-area: top;
+  display: grid;
+  grid-template-columns: 1fr 6rem 1fr;
+}
+#control-pane fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+#control-pane .or {
+  text-align: center;
+  font-weight: bold;
+  align-self: center;
+}
+#control-pane .button-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+#control-pane div.notice {
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.5em;
+}
+#browse::before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 0.5em 0 0;
+  content: '\e813';
+}
+@keyframes stripe-animation {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 2rem 0;
+  }
+}
+#capture::before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 0.5em 0 0;
+  content: '\e812';
+}
+#capture.capturing {
+  background-image: repeating-linear-gradient(90deg, #e91f1f, #e91f1f 1rem, #b90a0a 1rem, #b90a0a 2rem);
+  background-size: 2rem 100%;
+  animation: stripe-animation 0.5s linear infinite;
+}
+#output-pane {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+#output-pane pre {
+  padding-bottom: 1em;
+  font-size: 1rem;
+  line-height: normal;
+}
+#files-pane {
+  grid-area: right;
+  overflow: auto;
+}
+#files {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+#files ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+}
+#files ul li,
+#files ul::after {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+#files ul li {
+  background-color: #ddd;
+  color: white;
+  position: relative;
+}
+#files ul li::before {
+  position: relative;
+  z-index: 1;
+  content: attr(data-number);
+}
+#files ul li.loading:not(.loaded) {
+  background-color: #aaa;
+  position: relative;
+  overflow: hidden;
+}
+#files ul li.loading:not(.loaded)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--loading-percentage, 0);
+  background-image: repeating-linear-gradient(90deg, #499e57, #499e57 1rem, #1d6d2b 1rem, #1d6d2b 2rem);
+  background-size: 2rem 100%;
+  animation: stripe-animation 0.5s linear infinite;
+  transition: width 1s;
+}
+#files ul li.error {
+  background: #b90a0a;
+}
+#files ul li.loaded {
+  background: #499e57 !important;
+}
+#files ul li:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+#files > div:not(.last-block-found) ul::after {
+  content: "…";
+}
+#files > div.last-block-found li:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#files > div.complete ul {
+  display: none;
+}
+#files button::before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 0.5em 0 0;
+  content: '\e800';
+}
+#footer {
+  grid-area: bottom;
+  text-align: center;
+}
+#footer a[href] {
+  color: inherit;
+}

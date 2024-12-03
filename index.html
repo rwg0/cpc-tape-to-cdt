@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="author" content="Henri MEDOT" />
+  <title>Amstrad CPC Tape to CDT Converter</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="js/index.js" type="module" defer></script>
+</head>
+<body onload="main()">
+  <div id="header"><h1>Amstrad CPC Tape to CDT Online Converter</h1>
+    <p>Capture and convert standard <strong>Amstrad CPC 464</strong> tape block-files into CDT files, supporting regular formats saved from real machines.</p></div>
+  <div id="control-pane">
+    <fieldset>
+      <legend>Capture from a WAV file</legend>
+      <div>Drag and drop a WAV file here, or click <strong>Browse</strong> to select one. Then click <strong>Play</strong> (▶) to start capturing audio from the file.</div>
+      <div class="button-wrapper">
+        <button id="browse">Browse</button><div>No file selected yet</div>
+      </div>
+      <input type="file" id="file-input" accept=".wav" style="display:none" />
+      <audio id="audio" controls></audio>
+    </fieldset>
+    <div class="or">or</div>
+    <fieldset>
+      <legend>Capture from audio input</legend>
+      <div>Connect your tape player or audio device to your computer. Then click Capture to start recording audio input from your cassette.</div>
+      <div class="button-wrapper"><button id="capture">Capture</button></div>
+      <div class="notice">Please note: capturing directly from an audio source may be less stable than capturing from a pre-recorded WAV file. If you encounter a read error, rewind your cassette to the beginning of the block and retry, ensuring the recording volume is set to a reasonable level.</div>
+    </fieldset>
+  </div>
+  <fieldset id="output-pane">
+    <legend>Output</legend>
+    <pre id="output"></pre>
+  </fieldset>
+  <fieldset id="files-pane">
+    <legend>Captured files</legend>
+    <div id="files"></div>
+  </fieldset>
+  <div id="footer">
+    Version 1.0 - © Henri MEDOT 2024 - <a href="https://github.com/anrikun/cpc-tape-to-cdt" target="_blank">GitHub repository</a>
+  </div>
+</body>
+</html>

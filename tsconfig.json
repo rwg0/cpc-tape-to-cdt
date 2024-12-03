@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./js",
+    "lib": ["es5", "es6", "es2022", "dom"],
+    "target": "es2022",
+    "module": "es2022",
+    "sourceMap": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "isolatedModules": true,
+    "types": [],
+    "allowJs": true,
+    "removeComments": true,
+    "noFallthroughCasesInSwitch": true,
+  },
+  "exclude": ["node_modules", "ts", "js", "*.js"]
+}

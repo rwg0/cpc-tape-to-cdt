@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/fontello.woff2") format("woff2");
+}
+
+.icon-before(@name, @margin: 0 0.5em 0 0) {
+  &::before {
+    font-family: 'fontello';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: @margin;
+    .icon-content(@name);
+  }
+}
+
+.icon-content(@name) {
+  @prefixed-name: 'icon-@{name}';
+  content: @@prefixed-name;
+}
+
+@icon-download: '\e800';
+@icon-plus: '\e801';
+@icon-minus: '\e802';
+@icon-play: '\e803';
+@icon-stop: '\e804';
+@icon-pause: '\e805';
+@icon-to-start: '\e806';
+@icon-record: '\e807';
+@icon-floppy: '\e808';
+@icon-trash: '\e809';
+@icon-pencil: '\e80a';
+@icon-ccw: '\e80b';
+@icon-cw: '\e80c';
+@icon-drag-handle: '\e80d';
+@icon-loop: '\e80e';
+@icon-sound: '\e80f';
+@icon-mute: '\e810';
+@icon-upload: '\e811';
+@icon-mic: '\e812';
+@icon-folder: '\e813';

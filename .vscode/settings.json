@@ -1,0 +1,37 @@
+{
+  "breadcrumbs.enabled": true,
+  "css.validate": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.tabSize": 2,
+  "editor.autoIndent": "full",
+  "editor.insertSpaces": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.wordWrapColumn": 80,
+  "editor.wordWrap": "on",
+  "editor.wrappingIndent": "none",
+  "editor.detectIndentation": false,
+  "editor.rulers": [
+    80
+  ],
+  "html.format.enable": true,
+  "html.format.wrapLineLength": 80,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.openPositioning": "last",
+  "less.validate": true,
+  "eslint.options": {
+    "env":{
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    }
+  },
+  "javascript.validate.enable": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+  "files.trimTrailingWhitespace": true,
+}
