@@ -94,7 +94,6 @@ async function connectSource(type) {
         case 'line':
             stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
-                    sampleRate: context.sampleRate,
                     channelCount: 1,
                     echoCancellation: false,
                     noiseSuppression: false,

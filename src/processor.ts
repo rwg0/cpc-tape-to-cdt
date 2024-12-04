@@ -11,7 +11,11 @@ export class PulseProcessor extends AudioWorkletProcessor {
   level: number;
   counter: number;
   lastPeak: number;
-  oldValues: number[];
+  candidateIndex = 4;
+  precision = 10000;
+  threshold = 2000;
+  sliceLength: number;
+  slice: number[];
   capturing = false;
 
   /**
@@ -33,7 +37,8 @@ export class PulseProcessor extends AudioWorkletProcessor {
           this.level = 0;
           this.counter = 0;
           this.lastPeak = 0;
-          this.oldValues = [0, 0];
+          this.sliceLength = (this.candidateIndex * 2) + 1;
+          this.slice = Array(this.sliceLength).fill(0);
           this.capturing = true;
         }
         break;
@@ -66,16 +71,17 @@ export class PulseProcessor extends AudioWorkletProcessor {
     const edges: PulseEdge[] = [];
 
     input.forEach(value => {
-      const [candidate, valueBefore] = this.oldValues;
-      if ((this.level == 0 && candidate >= value && candidate >= valueBefore || this.level == 1 && candidate <= value && candidate <= valueBefore) && Math.abs(candidate - this.lastPeak) > 0.2) {
+      this.slice.unshift(Math.round(value * this.precision));
+      this.slice.length = this.sliceLength;
+      const candidate = this.slice[this.candidateIndex];
+      if (this.level == 0 && candidate == Math.max(...this.slice) && candidate - this.lastPeak > this.threshold
+       || this.level == 1 && candidate == Math.min(...this.slice) && this.lastPeak - candidate > this.threshold) {
         this.level ^= 1;
         edges.push([this.counter, this.level]);
         this.counter = 0;
         this.lastPeak = candidate;
       }
       this.counter++;
-      this.oldValues.unshift(value);
-      this.oldValues.length = 2;
     });
 
     edges.length && this.port.postMessage(['edges', edges]);
