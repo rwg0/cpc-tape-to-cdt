@@ -67,21 +67,25 @@ function main() {
   output = document.getElementById('output') as HTMLPreElement;
 
   filesPane = document.getElementById('files') as HTMLDivElement;
+
+  if (audio.src) {
+    const filename = new URL(audio.src).pathname.split('/').pop();
+    browse.nextSibling.textContent = filename;
+  }
 }
 window.main = main;
 
 /**
  * Uploads a WAV file.
  */
-function uploadFile(file: File): boolean {
+function uploadFile(file: File) {
   if (!file.type.includes('wav')) {
     alert('Please upload a valid WAV file.');
-    return false;
+    return;
   }
 
   audio.src = URL.createObjectURL(file);
   browse.nextSibling.textContent = file.name;
-  return true;
 }
 
 /**

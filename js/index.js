@@ -46,16 +46,19 @@ function main() {
     capture.onclick = () => toggleCapturing();
     output = document.getElementById('output');
     filesPane = document.getElementById('files');
+    if (audio.src) {
+        const filename = new URL(audio.src).pathname.split('/').pop();
+        browse.nextSibling.textContent = filename;
+    }
 }
 window.main = main;
 function uploadFile(file) {
     if (!file.type.includes('wav')) {
         alert('Please upload a valid WAV file.');
-        return false;
+        return;
     }
     audio.src = URL.createObjectURL(file);
     browse.nextSibling.textContent = file.name;
-    return true;
 }
 function outputText(...text) {
     output.appendChild(document.createTextNode(text.join('\n').concat('\n')));
