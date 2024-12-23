@@ -307,7 +307,7 @@ async function readBlock() {
   outputText(`Loading ${block.filename} block ${block.blockNumber}`);
   const blockItem = saveBlock(block);
 
-  const segmentCount = Math.ceil(block.dataLength / (256 + 2));
+  const segmentCount = Math.ceil(block.dataLength / 256);
   try {
     const data = await readRecord(0x16, segmentCount, loading => blockItem.style.setProperty('--loading-percentage', `${loading * 100}%`));
     saveBlock(block, data);
