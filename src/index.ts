@@ -246,7 +246,7 @@ function resolveOrRejectEdge(resolver: Resolver, rejecter: Rejecter) {
   const edge = buffer.shift();
   const [count] = edge;
   if (count > maxCount) {
-    rejecter('a');
+    rejecter('a' + ' - count of ' + count + ' is larger than max ' + maxCount);
   }
   else {
     resolver(edge);
@@ -277,7 +277,8 @@ async function readBlocks() {
       await readBlock();
     }
     catch (e) {
-      e && outputText(`Read error ${e}`);
+      console.log(e + ' at ' + audio.currentTime);
+      e && outputText(`Read error ${e} at ${audio.currentTime}`);
     }
   }
 }
@@ -324,7 +325,7 @@ async function readBlock() {
 async function readRecord(marker: number, segmentCount: number, progress?: (loading: number) => void): Promise<number[]> {
   // Read pilot and get the threshold value.
   threshold = await getThreshold();
-
+  console.log('Set threshold to ' + threshold);
   // Read marker.
   const byte = await getByte();
   if (byte !== marker) {
@@ -374,7 +375,9 @@ async function getThreshold(): Promise<number> {
       }
     }
     catch (e) {
-      if (e !== 'a') {
+      if (typeof e == "string" && e[0] == 'a') {
+      }
+      else {
         throw e;
       }
     }
@@ -389,6 +392,14 @@ async function getByte(): Promise<number> {
   for (let i = 0; i < 8; i++) {
     let [count1] = await getPulseEdge();
     let [count2] = await getPulseEdge();
+    let sum = count1+count2;
+    let diff = sum-threshold;
+    if (diff < 0) {diff = -diff;}
+    diff = diff*2/sum;
+    if (diff < 0.2 || sum > threshold*2) {
+      console.log('at ' + audio.currentTime);
+      console.log(count1+count2, threshold);
+    }
     const bit = count1 + count2 > threshold ? 1 : 0;
     byte = (byte << 1) | bit;
   }
@@ -411,7 +422,8 @@ async function getSegment(): Promise<number[]> {
   }, 0xFFFF) & 0xFFFF;
   const word = (data[256] << 8) | data[257];
   if (crc != word) {
-    throw 'b';
+    console.log('crc mismatch');
+    throw 'b' + ' - expected crc 0x' + word.toString(16) + ' got 0x' + crc.toString(16);
   }
   return data;
 }
